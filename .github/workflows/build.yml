@@ -72,7 +72,7 @@ jobs:
         run: |
           VS_VERSION=${{ github.event.inputs.vs_version }}
           VS_FULL_VERSION=$(cat vs_buildtools/version.txt)
-          docker build -t ghcr.io/Stage2Sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest -t ghcr.io/Stage2Sec/msbuild-docker:$VS_FULL_VERSION .
-          docker tag ghcr.io/Stage2Sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest ghcr.io/Stage2Sec/msbuild-docker:latest
-          docker push ghcr.io/Stage2Sec/msbuild-docker:$VS_FULL_VERSION
-          docker push ghcr.io/Stage2Sec/msbuild-docker:latest
+          docker build -t ghcr.io/stage2sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest -t ghcr.io/stage2sec/msbuild-docker:$VS_FULL_VERSION .
+          docker tag ghcr.io/stage2sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest ghcr.io/stage2sec/msbuild-docker:latest
+          docker push ghcr.io/stage2sec/msbuild-docker:$VS_FULL_VERSION
+          docker push ghcr.io/stage2sec/msbuild-docker:latest
