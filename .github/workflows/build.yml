@@ -8,7 +8,7 @@ on:
       vs_version:
         type: string
         required: true
-        default: '17'
+        default: '16'
 jobs:
   install_buildtools:
     runs-on: windows-latest
@@ -72,11 +72,7 @@ jobs:
         run: |
           VS_VERSION=${{ github.event.inputs.vs_version }}
           VS_FULL_VERSION=$(cat vs_buildtools/version.txt)
-          docker build -t ghcr.io/rektinator/msbuild-docker:${{ github.event.inputs.vs_version }}-latest -t ghcr.io/rektinator/msbuild-docker:$VS_FULL_VERSION .
-          docker push ghcr.io/rektinator/msbuild-docker:${{ github.event.inputs.vs_version }}-latest
-          docker push ghcr.io/rektinator/msbuild-docker:$VS_FULL_VERSION
-          if [ $VS_VERSION -eq 17 ]
-          then
-            docker tag ghcr.io/rektinator/msbuild-docker:${{ github.event.inputs.vs_version }}-latest ghcr.io/rektinator/msbuild-docker:latest
-            docker push ghcr.io/rektinator/msbuild-docker:latest
-          fi
+          docker build -t ghcr.io/Stage2Sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest -t ghcr.io/Stage2Sec/msbuild-docker:$VS_FULL_VERSION .
+          docker tag ghcr.io/Stage2Sec/msbuild-docker:${{ github.event.inputs.vs_version }}-latest ghcr.io/Stage2Sec/msbuild-docker:latest
+          docker push ghcr.io/Stage2Sec/msbuild-docker:$VS_FULL_VERSION
+          docker push ghcr.io/Stage2Sec/msbuild-docker:latest
