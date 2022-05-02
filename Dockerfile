@@ -40,52 +40,52 @@ USER runner
 # Initialize the wine environment. Wait until the wineserver process has
 # exited before closing the session, to avoid corrupting the wine prefix.
 RUN export WINEDLLOVERRIDES="mscoree=" && \
-    xvfb-run wineboot --init && \
-    while pgrep wineserver > /dev/null; do sleep 1; done
+    xvfb-run -a wineboot --init && \
+    while pgrep wineserver > /dev/null; do sleep 1; done && \
+    rm -rf ${HOME}/.cache/* /tmp/*
 
 # Set to win10
 RUN export WINEDEBUG="-all" && \
-    xvfb-run winetricks --force --unattended win10 && \
+    xvfb-run -a winetricks --force --unattended win10 && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 # install dotnet 3.5
 RUN export WINEDEBUG="-all" && \
-    xvfb-run winetricks --force --unattended dotnet35 && \
+    xvfb-run -a winetricks --force --unattended dotnet35 && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 # install dotnet 4.8
 RUN export WINEDEBUG="-all" && \
-    xvfb-run winetricks --force --unattended dotnet48 && \
+    xvfb-run -a winetricks --force --unattended dotnet48 && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 # download and install the windows 10 17763 SDK
 RUN export WINEDEBUG="-all" && \
     wget -q https://go.microsoft.com/fwlink/p/?LinkID=2033908 -O /tmp/winsdksetup.exe && \
-    xvfb-run wine64 /tmp/winsdksetup.exe /norestart /q /installpath "Z:\\opt\\msbuild\\winsdk" && \
+    xvfb-run -a wine64 /tmp/winsdksetup.exe /norestart /q /installpath "Z:\\opt\\msbuild\\winsdk" && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
-
 ## install .NET 5.0 SDK
 RUN wget -q https://download.visualstudio.microsoft.com/download/pr/cc9263cb-9764-4d34-a792-054bebe3abed/08c84422ab3dfdbf53f8cc03f84e06be/dotnet-sdk-5.0.407-win-x64.exe -O /tmp/dotnet-sdk-5.0.407-win-x64.exe && \
-    xvfb-run wine /tmp/dotnet-sdk-5.0.407-win-x64.exe /q /norestart && \
+    xvfb-run -a wine /tmp/dotnet-sdk-5.0.407-win-x64.exe /q /norestart && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 ## install .NET Framework 4.5.2 developer/targeting pack
 RUN wget -q "https://download.microsoft.com/download/4/3/B/43B61315-B2CE-4F5B-9E32-34CCA07B2F0E/NDP452-KB2901951-x86-x64-DevPack.exe" -O /tmp/NDP452-KB2901951-x86-x64-DevPack.exe && \
     winecfg -v win7 && \
-    xvfb-run wine /tmp/NDP452-KB2901951-x86-x64-DevPack.exe /q /norestart /repair && \
+    xvfb-run -a wine /tmp/NDP452-KB2901951-x86-x64-DevPack.exe /q /norestart /repair && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 # install .NET Framework 4.5 devel/targeting pack from win8 sdk
 RUN export WINEDEBUG="-all" && \
     wget -q "https://go.microsoft.com/fwlink/p/?LinkId=226658" -O /tmp/win8sdk.exe && \
-    xvfb-run wine /tmp/win8sdk.exe /q /norestart && \
+    xvfb-run -a wine /tmp/win8sdk.exe /q /norestart && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
