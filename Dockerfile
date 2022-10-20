@@ -63,8 +63,11 @@ RUN export WINEDEBUG="-all" && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
 # download and install the windows 10 17763 SDK
+# wget -q https://go.microsoft.com/fwlink/p/?LinkID=2033908 -O /tmp/winsdksetup.exe && \
+
+# download and install the windows 11 22621 SDK
 RUN export WINEDEBUG="-all" && \
-    wget -q https://go.microsoft.com/fwlink/p/?LinkID=2033908 -O /tmp/winsdksetup.exe && \
+    wget -q https://go.microsoft.com/fwlink/p/?linkid=2196241 -O /tmp/winsdksetup.exe && \
     xvfb-run -a wine64 /tmp/winsdksetup.exe /norestart /q /installpath "Z:\\opt\\msbuild\\winsdk" && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
@@ -86,6 +89,15 @@ RUN wget -q "https://download.microsoft.com/download/4/3/B/43B61315-B2CE-4F5B-9E
 RUN export WINEDEBUG="-all" && \
     wget -q "https://go.microsoft.com/fwlink/p/?LinkId=226658" -O /tmp/win8sdk.exe && \
     xvfb-run -a wine /tmp/win8sdk.exe /q /norestart && \
+    (wineserver --kill || true) && \
+    rm -rf ${HOME}/.cache/* /tmp/*
+
+# download and install the Windows Driver Kit 11 22621
+#xvfb-run -a wine64 /tmp/winwdksetup.exe /norestart /q /features + /installpath "Z:\\opt\\msbuild\\winwdk" && \
+
+RUN export WINEDEBUG="-all" && \
+    wget -q https://go.microsoft.com/fwlink/?linkid=2196230 -O /tmp/winwdksetup.exe && \
+    xvfb-run -a wine64 /tmp/winwdksetup.exe /norestart /q /features + && \
     (wineserver --kill || true) && \
     rm -rf ${HOME}/.cache/* /tmp/*
 
